@@ -1,1 +1,12 @@
-{}
+{
+  "new_timer": "New Timer",
+  "focus": "Focus",
+  "short_break": "Short break",
+  "long_break": "Long break",
+  "sections": "",
+  "interval": "Interval",
+  "interval_plural": "Intervals",
+  "x_min": "{{count}} min",
+  "add_timer": "Add timer",
+  "time_tracker": "Time Tracker"
+}

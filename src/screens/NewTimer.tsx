@@ -4,8 +4,9 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import SafeArea from '../components/SafeArea'
 import Button from '../components/Button'
 import i18n from '../i18n'
+import { HomeStackParamList } from '../types/stackParamList'
 
-const NewTimer = ({ navigation }: NativeStackScreenProps<any>) => {
+const NewTimer = ({ navigation }: NativeStackScreenProps<HomeStackParamList>) => {
   return (
     <SafeArea>
       <Container>

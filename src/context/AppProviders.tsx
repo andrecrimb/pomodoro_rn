@@ -9,6 +9,7 @@ import {
   Spartan_500Medium,
   Spartan_700Bold
 } from '@expo-google-fonts/spartan'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 //* setup dayjs
 import dayjs from 'dayjs'
@@ -36,7 +37,9 @@ const AppProviders = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <ThemeProvider theme={theme.dark}>
-      <NavigationContainer theme={theme.navigation.dark}>{children}</NavigationContainer>
+      <SafeAreaProvider>
+        <NavigationContainer theme={theme.navigation.dark}>{children}</NavigationContainer>
+      </SafeAreaProvider>
     </ThemeProvider>
   )
 }

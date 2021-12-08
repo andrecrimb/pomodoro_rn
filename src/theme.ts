@@ -6,7 +6,7 @@ export const font = {
   bold: 'Spartan_700Bold'
 }
 
-const grey = {
+export const grey = {
   400: '#bdbdbd',
   500: '#9e9e9e',
   800: '#2E2E2E',
@@ -15,7 +15,7 @@ const grey = {
 
 export const primary = {
   main: '#007AFF',
-  dark: '#004794',
+  dark: '#0063CE',
   light: '#54A6FF'
 }
 

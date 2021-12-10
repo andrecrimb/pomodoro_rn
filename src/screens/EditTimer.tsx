@@ -14,25 +14,17 @@ import InputField from '../components/InputField'
 import useTimers from '../hooks/useTimers'
 import { createArr } from '../utils'
 
-const defaultValues = {
-  name: i18n.t('new_timer'),
-  focus: 40,
-  short_break: 5,
-  long_break: 15,
-  sections: 4
-}
-
-export default ({ navigation }: NativeStackScreenProps<HomeStackParamList, 'newTimer'>) => {
-  const { addTimer } = useTimers()
+export default ({ navigation, route }: NativeStackScreenProps<HomeStackParamList, 'editTimer'>) => {
+  const { editTimer } = useTimers()
 
   const {
     control,
     handleSubmit,
     formState: { errors }
-  } = useForm({ defaultValues })
+  } = useForm({ defaultValues: route.params })
 
-  const onSubmit = async (data: typeof defaultValues) => {
-    await addTimer(data, {
+  const onSubmit = async (data: typeof route.params) => {
+    await editTimer(data, {
       onSuccess: () => {
         navigation.pop()
       }
@@ -178,7 +170,7 @@ export default ({ navigation }: NativeStackScreenProps<HomeStackParamList, 'newT
           color="primary"
           disabled={!!Object.keys(errors).length}
           onPress={handleSubmit(onSubmit)}
-          title={i18n.t('add_timer')}
+          title={i18n.t('edit_timer')}
         />
       </Footer>
     </SafeArea>

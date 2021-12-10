@@ -20,6 +20,7 @@ import 'intl/locale-data/jsonp/en'
 
 //* setup internationalization
 import '../i18n'
+import { TimersProvider } from './TimersContext'
 
 //* dayjs default props
 dayjs.extend(utc)
@@ -38,7 +39,9 @@ const AppProviders = ({ children }: { children: React.ReactNode }) => {
   return (
     <ThemeProvider theme={theme.dark}>
       <SafeAreaProvider>
-        <NavigationContainer theme={theme.navigation.dark}>{children}</NavigationContainer>
+        <NavigationContainer theme={theme.navigation.dark}>
+          <TimersProvider>{children}</TimersProvider>
+        </NavigationContainer>
       </SafeAreaProvider>
     </ThemeProvider>
   )

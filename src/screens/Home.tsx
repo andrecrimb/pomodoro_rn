@@ -7,7 +7,7 @@ import SafeArea from '../components/SafeArea'
 import { HomeStackParamList } from '../types/stackParamList'
 import styled from '@emotion/native'
 
-const Home = ({ navigation }: NativeStackScreenProps<HomeStackParamList>) => {
+const Home = ({ navigation }: NativeStackScreenProps<HomeStackParamList, 'home'>) => {
   return (
     <SafeArea>
       <TimersList />

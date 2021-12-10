@@ -23,6 +23,7 @@ const dark = {
   primary,
   background: grey[900],
   card: grey[900],
+  danger: '#f44336',
   text: '#fff',
   grey,
   font

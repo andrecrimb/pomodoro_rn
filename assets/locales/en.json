@@ -3,10 +3,13 @@
   "focus": "Focus",
   "short_break": "Short break",
   "long_break": "Long break",
-  "sections": "",
-  "interval": "Interval",
-  "interval_plural": "Intervals",
+  "sections": "Sections",
+  "interval": { "one": "Interval", "other": "Intervals" },
   "x_min": "{{count}} min",
   "add_timer": "Add timer",
-  "time_tracker": "Time Tracker"
+  "edit_timer": "Edit timer",
+  "time_tracker": "Time Tracker",
+  "timer_label": "Timer Label",
+  "empty_field_message": "This field cannot be empty",
+  "create_first_timer": "Create your first time tracker"
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/native'
 import { StyleSheet } from 'react-native'
-import { font, grey } from '../theme'
+import { grey } from '../theme'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import Animated, { useAnimatedStyle, useDerivedValue, withTiming } from 'react-native-reanimated'
 import { AntDesign } from '@expo/vector-icons'
@@ -61,12 +61,12 @@ const Header = styled.View`
 const Label = styled.Text`
   font-family: ${p => p.theme.font.bold};
   color: ${p => p.theme.text};
-  font-size: 18px;
+  font-size: 16px;
 `
 const SelectedValue = styled.Text`
   font-family: ${p => p.theme.font[500]};
   color: ${p => p.theme.grey[500]};
-  font-size: 18px;
+  font-size: 16px;
   margin-right: 16px;
 `
 const styles = StyleSheet.create({

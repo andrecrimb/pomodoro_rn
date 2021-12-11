@@ -1,4 +1,4 @@
-export const uniqueID = () => Math.floor(Math.random() * Date.now())
+export const uniqueID = () => '_' + Math.random().toString(36).substr(2, 9)
 
 export const createArr = (length: number, startIndex: number = 1, space: number = 1) => {
   const arr: number[] = []

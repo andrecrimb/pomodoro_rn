@@ -12,18 +12,18 @@ type Props = {
 export default ({ onPress }: Props) => {
   return (
     <TouchableOpacity onPress={onPress}>
-      <PlayWrapper>
-        <Ionicons name="play" size={24} color="#fff" style={{ marginLeft: 4 }} />
-      </PlayWrapper>
+      <Wrapper>
+        <Ionicons name="play" size={28} color="#fff" style={{ marginLeft: 4 }} />
+      </Wrapper>
     </TouchableOpacity>
   )
 }
 
 //#region Styles
-const PlayWrapper = styled.View`
+const Wrapper = styled.View`
   border-radius: 30px;
-  height: 40px;
-  width: 40px;
+  height: 46px;
+  width: 46px;
   align-items: center;
   justify-content: center;
   background-color: ${p => p.theme.primary.main};

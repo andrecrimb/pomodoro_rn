@@ -2,46 +2,135 @@ import React from 'react'
 import i18n from '../i18n'
 import PlayButton from './PlayButton'
 import { Octicons } from '@expo/vector-icons'
-import { primary } from '../theme'
-import Animated from 'react-native-reanimated'
+import { grey, primary } from '../theme'
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  useAnimatedGestureHandler,
+  withSpring,
+  withTiming,
+  interpolate,
+  Extrapolate,
+  runOnJS
+} from 'react-native-reanimated'
 import styled from '@emotion/native'
-import { StyleSheet, View } from 'react-native'
+import { Dimensions, StyleSheet, View } from 'react-native'
 import { Timer } from '../types/timer'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { HomeStackParamList } from '../types/stackParamList'
+import { PanGestureHandler, PanGestureHandlerGestureEvent } from 'react-native-gesture-handler'
+import DeleteButton from './DeleteButton'
+import useTimers from '../hooks/useTimers'
+
+const { width } = Dimensions.get('window')
+const optionsWidth = 95
 
 type Props = { item: Timer }
 type NavigationProps = NativeStackNavigationProp<HomeStackParamList, 'home'>
 
 export default ({ item }: Props) => {
+  const { removeTimer } = useTimers()
+
   const navigation = useNavigation<NavigationProps>()
+  const translateX = useSharedValue(0)
+  const scale = useSharedValue(0)
+  const optionsOpen = useSharedValue(false)
+
+  const cellAnimStyles = useAnimatedStyle(
+    () => ({ transform: [{ translateX: translateX.value }] }),
+    []
+  )
+
+  const deleteBtnAnimStyles = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }), [])
+
+  const gestureHandler = useAnimatedGestureHandler<
+    PanGestureHandlerGestureEvent,
+    { x: number; y: number }
+  >(
+    {
+      onStart: (_, ctx: any) => {
+        ctx.x = translateX.value
+      },
+      onActive: (ev, ctx) => {
+        const newX = ctx.x + ev.translationX
+        translateX.value = newX >= 0 ? 0 : newX
+
+        scale.value = interpolate(newX, [40, -100], [0.1, 1])
+      },
+      onEnd: ev => {
+        scale.value = withTiming(
+          interpolate(translateX.value, [40, -100], [0.1, 1], {
+            extrapolateRight: Extrapolate.CLAMP
+          })
+        )
+
+        //* User fully swipe to delete
+        if (translateX.value < -width / 2) {
+          translateX.value = withTiming(-width, { duration: 200 }, () =>
+            runOnJS(removeTimer)(item.id)
+          )
+          return
+        }
+
+        if (!optionsOpen.value && translateX.value > -width) {
+          translateX.value = withSpring(-optionsWidth, { velocity: ev.velocityX }, () => {
+            optionsOpen.value = true
+          })
+          return
+        }
+
+        if (optionsOpen.value) {
+          if (translateX.value > -optionsWidth) {
+            translateX.value = withSpring(0, { velocity: ev.velocityX }, () => {
+              optionsOpen.value = false
+            })
+          } else {
+            translateX.value = withSpring(-optionsWidth, { velocity: ev.velocityX })
+          }
+        }
+      }
+    },
+    [removeTimer]
+  )
 
   return (
-    <Animated.View>
-      <Cell onPress={() => navigation.push('editTimer', item)}>
-        <>
-          <View>
-            <CellName>{item.name}</CellName>
-            <InfoBottom>
-              <CellAdditionalInfo>
-                {i18n.t('focus')} {i18n.t('x_min', { count: item.focus })}
-              </CellAdditionalInfo>
-              <Octicons name="primitive-dot" style={styles.dot} size={14} color={primary.main} />
-              <CellAdditionalInfo>
-                {item.sections} {i18n.t('interval', { count: item.sections })}
-              </CellAdditionalInfo>
-            </InfoBottom>
-          </View>
-          <PlayButton onPress={() => navigation.push('runningTimer', { name: item.name })} />
-        </>
-      </Cell>
-    </Animated.View>
+    <>
+      <PanGestureHandler onGestureEvent={gestureHandler}>
+        <Animated.View style={[styles.cell, cellAnimStyles]}>
+          <Cell onPress={() => navigation.push('editTimer', item)} underlayColor={grey[700]}>
+            <>
+              <View>
+                <CellName>{item.name}</CellName>
+                <InfoBottom>
+                  <CellAdditionalInfo>
+                    {i18n.t('focus')} {i18n.t('x_min', { count: item.focus })}
+                  </CellAdditionalInfo>
+                  <Octicons
+                    name="primitive-dot"
+                    style={styles.dot}
+                    size={14}
+                    color={primary.main}
+                  />
+                  <CellAdditionalInfo>
+                    {item.sections} {i18n.t('interval', { count: item.sections })}
+                  </CellAdditionalInfo>
+                </InfoBottom>
+              </View>
+              <PlayButton onPress={() => navigation.push('runningTimer', { name: item.name })} />
+            </>
+          </Cell>
+        </Animated.View>
+      </PanGestureHandler>
+      <Animated.View style={[styles.deleteBtn, deleteBtnAnimStyles]}>
+        <DeleteButton onPress={() => removeTimer(item.id)} />
+      </Animated.View>
+    </>
   )
 }
 
 //#region Styles
-const Cell = styled.TouchableOpacity`
+const Cell = styled.TouchableHighlight`
   background-color: ${p => p.theme.grey[800]};
   padding: 20px;
   margin: 8px 10px;
@@ -65,6 +154,16 @@ const CellAdditionalInfo = styled.Text`
   font-family: ${p => p.theme.font[500]};
 `
 const styles = StyleSheet.create({
-  dot: { marginLeft: 10, marginRight: 10 }
+  dot: { marginLeft: 10, marginRight: 10 },
+  cell: { zIndex: 2 },
+  deleteBtn: {
+    position: 'absolute',
+    alignContent: 'center',
+    justifyContent: 'center',
+    top: 0,
+    bottom: 0,
+    right: 30,
+    transform: [{ scale: 0.1 }]
+  }
 })
 //#endregion

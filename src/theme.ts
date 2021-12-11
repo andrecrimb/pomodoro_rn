@@ -1,4 +1,4 @@
-import { DefaultTheme, DarkTheme } from '@react-navigation/native'
+import { DarkTheme } from '@react-navigation/native'
 
 export const font = {
   400: 'Spartan_400Regular',
@@ -9,6 +9,7 @@ export const font = {
 export const grey = {
   400: '#bdbdbd',
   500: '#9e9e9e',
+  700: '#424242',
   800: '#2E2E2E',
   900: '#202020'
 }

@@ -4,19 +4,24 @@ import Animated, {
   useAnimatedStyle,
   withRepeat,
   withSequence,
-  withSpring
+  withSpring,
+  withTiming
 } from 'react-native-reanimated'
-import { grey, primary } from '../theme'
+import { grey } from '../theme'
 import i18n from '../i18n'
-import { Entypo, MaterialIcons } from '@expo/vector-icons'
 import { StyleSheet } from 'react-native'
+import { AntDesign } from '@expo/vector-icons'
 
 export default () => {
   const animatedArrowStyle = useAnimatedStyle(
     () => ({
       transform: [
         {
-          translateY: withRepeat(withSequence(withSpring(100), withSpring(50)), -1, true)
+          translateY: withRepeat(
+            withSequence(withTiming(100, { duration: 800 }), withTiming(50, { duration: 500 })),
+            -1,
+            true
+          )
         }
       ]
     }),
@@ -24,10 +29,9 @@ export default () => {
   )
   return (
     <Wrapper>
-      <MaterialIcons name="timer" size={110} color={grey[500]} />
       <TextMessage>{i18n.t('create_first_timer')}</TextMessage>
       <Animated.View style={[styles.arrowWrapper, animatedArrowStyle]}>
-        <Entypo name="arrow-down" size={70} color={primary.light} />
+        <AntDesign name="arrowdown" size={60} color={grey[500]} />
       </Animated.View>
     </Wrapper>
   )
@@ -44,10 +48,10 @@ const TextMessage = styled.Text`
   color: ${p => p.theme.grey[500]};
   width: 80%;
   text-align: center;
-  line-height: 40px;
-  font-size: 24px;
+  line-height: 50px;
+  font-size: 28px;
   margin-top: 40px;
-  font-family: ${p => p.theme.font.bold};
+  font-family: ${p => p.theme.font[500]};
 `
 const styles = StyleSheet.create({
   arrowWrapper: {

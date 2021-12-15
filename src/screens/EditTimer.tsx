@@ -83,7 +83,7 @@ export default ({ navigation, route }: NativeStackScreenProps<HomeStackParamList
             <Controller
               control={control}
               rules={{ required: true }}
-              name="short_break"
+              name="shortBreak"
               render={({ field: { onChange, value } }) => (
                 <FormAccordion
                   selectedLabel={i18n.t('x_min', { count: value })}
@@ -111,7 +111,7 @@ export default ({ navigation, route }: NativeStackScreenProps<HomeStackParamList
             <Controller
               control={control}
               rules={{ required: true }}
-              name="long_break"
+              name="longBreak"
               render={({ field: { onChange, value } }) => (
                 <FormAccordion
                   selectedLabel={i18n.t('x_min', { count: value })}
@@ -144,6 +144,34 @@ export default ({ navigation, route }: NativeStackScreenProps<HomeStackParamList
                 <FormAccordion
                   selectedLabel={`${value} ${i18n.t('interval', { count: value })}`}
                   label={i18n.t('sections')}>
+                  <Picker
+                    mode="dropdown"
+                    dropdownIconColor="#fff"
+                    selectedValue={value}
+                    itemStyle={styles.pickerItem}
+                    onValueChange={itemValue => onChange(itemValue)}>
+                    {createArr(10, 2).map(v => (
+                      <Picker.Item
+                        key={v}
+                        label={`${v} ${i18n.t('interval', { count: v })}`}
+                        value={v}
+                        color="#fff"
+                      />
+                    ))}
+                  </Picker>
+                </FormAccordion>
+              )}
+            />
+          </FieldSpace>
+          <FieldSpace>
+            <Controller
+              control={control}
+              rules={{ required: true }}
+              name="intervalsForLongBreak"
+              render={({ field: { onChange, value } }) => (
+                <FormAccordion
+                  selectedLabel={`${value} ${i18n.t('interval', { count: value })}`}
+                  label={i18n.t('long_break_after')}>
                   <Picker
                     mode="dropdown"
                     dropdownIconColor="#fff"

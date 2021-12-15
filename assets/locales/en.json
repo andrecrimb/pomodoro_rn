@@ -11,5 +11,6 @@
   "time_tracker": "Time Tracker",
   "timer_label": "Timer Label",
   "empty_field_message": "This field cannot be empty",
-  "create_first_timer": "Create your first time tracker"
+  "create_first_timer": "Create your first time tracker",
+  "long_break_after": "Long break after"
 }

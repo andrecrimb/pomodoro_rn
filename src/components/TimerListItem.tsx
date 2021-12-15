@@ -22,6 +22,7 @@ import { HomeStackParamList } from '../types/stackParamList'
 import { PanGestureHandler, PanGestureHandlerGestureEvent } from 'react-native-gesture-handler'
 import DeleteButton from './DeleteButton'
 import useTimers from '../hooks/useTimers'
+import * as Haptics from 'expo-haptics'
 
 const { width } = Dimensions.get('window')
 const optionsWidth = 95
@@ -43,6 +44,14 @@ export default ({ item }: Props) => {
   )
 
   const deleteBtnAnimStyles = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }), [])
+
+  const onDeleteSwipe = React.useCallback(
+    (timerId: string) => {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+      removeTimer(timerId)
+    },
+    [removeTimer]
+  )
 
   const gestureHandler = useAnimatedGestureHandler<
     PanGestureHandlerGestureEvent,
@@ -68,7 +77,7 @@ export default ({ item }: Props) => {
         //* User fully swipe to delete
         if (translateX.value < -width / 2) {
           translateX.value = withTiming(-width, { duration: 200 }, () =>
-            runOnJS(removeTimer)(item.id)
+            runOnJS(onDeleteSwipe)(item.id)
           )
           return
         }
@@ -91,7 +100,7 @@ export default ({ item }: Props) => {
         }
       }
     },
-    [removeTimer]
+    [onDeleteSwipe]
   )
 
   return (

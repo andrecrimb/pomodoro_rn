@@ -11,21 +11,9 @@ import {
 } from '@expo-google-fonts/spartan'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-//* setup dayjs
-import dayjs from 'dayjs'
-import timezone from 'dayjs/plugin/timezone'
-import utc from 'dayjs/plugin/utc'
-import 'intl'
-import 'intl/locale-data/jsonp/en'
-
 //* setup internationalization
 import '../i18n'
 import { TimersProvider } from './TimersContext'
-
-//* dayjs default props
-dayjs.extend(utc)
-dayjs.extend(timezone)
-dayjs.tz.guess()
 
 const AppProviders = ({ children }: { children: React.ReactNode }) => {
   const [fontsLoaded] = useFonts({

@@ -8,6 +8,7 @@ import { font, primary } from '../theme'
 import TomatoButton from '../components/TomatoButton'
 import { HomeStackParamList } from '../types/stackParamList'
 import EditTimer from '../screens/EditTimer'
+import CloseButton from '../components/CloseButton'
 
 const Stack = createNativeStackNavigator<HomeStackParamList>()
 
@@ -30,20 +31,29 @@ const HomeStack = () => {
       <Stack.Screen
         component={NewTimer}
         name="newTimer"
-        options={{ title: i18n.t('new_timer'), presentation: 'formSheet' }}
+        options={({ navigation }) => ({
+          title: i18n.t('new_timer'),
+          presentation: 'formSheet',
+          headerLeft: () => <CloseButton onPress={() => navigation.pop()} />
+        })}
       />
       <Stack.Screen
         component={EditTimer}
         name="editTimer"
-        options={({ route }) => ({ title: route.params.name, presentation: 'formSheet' })}
+        options={({ route, navigation }) => ({
+          title: route.params.name,
+          presentation: 'formSheet',
+          headerLeft: () => <CloseButton onPress={() => navigation.pop()} />
+        })}
       />
       <Stack.Screen
         component={RunningTimer}
         name="runningTimer"
-        options={({ route }) => ({
+        options={({ route, navigation }) => ({
           presentation: 'formSheet',
           title: route.params.name,
-          headerStyle: { backgroundColor: primary.main }
+          headerStyle: { backgroundColor: primary.main },
+          headerLeft: () => <CloseButton onPress={() => navigation.pop()} />
         })}
       />
     </Stack.Navigator>

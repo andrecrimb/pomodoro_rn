@@ -126,7 +126,7 @@ export default ({ item }: Props) => {
                   </CellAdditionalInfo>
                 </InfoBottom>
               </View>
-              <PlayButton onPress={() => navigation.push('runningTimer', { name: item.name })} />
+              <PlayButton onPress={() => navigation.push('runningTimer', item)} />
             </>
           </Cell>
         </Animated.View>

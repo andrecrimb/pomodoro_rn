@@ -20,7 +20,7 @@ const Home = ({ navigation }: NativeStackScreenProps<HomeStackParamList, 'home'>
 
 //#region Styles
 const Footer = styled.View`
-  margin: 10px 16px 5px 16px;
+  margin: 10px 16px 10px 16px;
 `
 //#endregion
 

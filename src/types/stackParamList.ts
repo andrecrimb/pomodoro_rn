@@ -1,7 +1,7 @@
 import { Timer } from './timer'
 
 export type HomeStackParamList = {
-  runningTimer: { name: string }
+  runningTimer: Timer
   home: undefined
   newTimer: undefined
   editTimer: Timer

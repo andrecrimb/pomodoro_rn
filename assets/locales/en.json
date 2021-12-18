@@ -12,5 +12,7 @@
   "timer_label": "Timer Label",
   "empty_field_message": "This field cannot be empty",
   "create_first_timer": "Create your first time tracker",
-  "long_break_after": "Long break after"
+  "long_break_after": "Long break after",
+  "completed": "Completed",
+  "round_x_of_y": "Round {{x}} of {{y}}"
 }

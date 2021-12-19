@@ -54,7 +54,8 @@ const TextField = styled.TextInput`
   color: ${p => p.theme.text};
   font-size: 16px;
   flex: 1;
-  padding: 26px;
+  padding: 20px;
+  font-weight: normal;
 `
 const ErrorText = styled.Text`
   color: ${p => p.theme.danger};

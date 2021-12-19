@@ -8,7 +8,7 @@ import { HomeStackParamList } from '../types/stackParamList'
 import FormAccordion from '../components/FormAccordion'
 import { Picker } from '@react-native-picker/picker'
 import { StyleSheet, ScrollView } from 'react-native'
-import { font } from '../theme'
+import { font, grey } from '../theme'
 import { useForm, Controller } from 'react-hook-form'
 import InputField from '../components/InputField'
 import useTimers from '../hooks/useTimers'
@@ -80,7 +80,7 @@ export default ({ navigation }: NativeStackScreenProps<HomeStackParamList, 'newT
                         key={v}
                         label={i18n.t('x_min', { count: v })}
                         value={v}
-                        color="#fff"
+                        style={styles.pickerItem}
                       />
                     ))}
                   </Picker>
@@ -226,7 +226,11 @@ const Footer = styled.View`
   margin: 10px 16px 5px 16px;
 `
 const styles = StyleSheet.create({
-  pickerItem: { fontFamily: font[500], color: '#fff', fontSize: 18 },
-  pickerWrapper: { position: 'relative', overflow: 'hidden' }
+  pickerItem: {
+    fontFamily: font[500],
+    color: '#fff',
+    fontSize: 18,
+    backgroundColor: grey[800]
+  }
 })
 //#endregion

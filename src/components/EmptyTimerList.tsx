@@ -4,7 +4,6 @@ import Animated, {
   useAnimatedStyle,
   withRepeat,
   withSequence,
-  withSpring,
   withTiming
 } from 'react-native-reanimated'
 import { grey } from '../theme'
@@ -29,7 +28,11 @@ export default () => {
   return (
     <Wrapper>
       <TextMessage>{i18n.t('create_first_timer')}</TextMessage>
-      <Animated.View style={animatedArrowStyle}>
+      <Animated.View
+        style={animatedArrowStyle}
+        accessible
+        accessibilityLabel={i18n.t('pointing_arrow')}
+        accessibilityHint={i18n.t('pointing_arrow_description')}>
         <AntDesign name="arrowdown" size={60} color={grey[500]} />
       </Animated.View>
     </Wrapper>

@@ -14,5 +14,10 @@
   "create_first_timer": "Create your first time tracker",
   "long_break_after": "Long break after",
   "completed": "Completed",
-  "round_x_of_y": "Round {{x}} of {{y}}"
+  "round_x_of_y": "Round {{x}} of {{y}}",
+  "close": "Close",
+  "delete": "Delete",
+  "pointing_arrow": "Pointing arrow",
+  "pointing_arrow_description": "Arrow pointing to create new timer button",
+  "start_focus_sections": "Start focus sections"
 }

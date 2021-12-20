@@ -2,6 +2,7 @@ import React from 'react'
 import styled from '@emotion/native'
 import { TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
+import i18n from '../i18n'
 
 //#region Props
 type Props = {
@@ -11,7 +12,10 @@ type Props = {
 
 export default ({ onPress }: Props) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity
+      onPress={onPress}
+      accessible
+      accessibilityLabel={i18n.t('start_focus_sections')}>
       <Wrapper>
         <Ionicons name="play" size={28} color="#fff" style={{ marginLeft: 4 }} />
       </Wrapper>

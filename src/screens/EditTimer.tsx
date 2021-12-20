@@ -5,7 +5,7 @@ import SafeArea from '../components/SafeArea'
 import Button from '../components/Button'
 import i18n from '../i18n'
 import { HomeStackParamList } from '../types/stackParamList'
-import FormAccordion from '../components/FormAccordion'
+import FormPickerWrapper from '../components/FormPickerWrapper'
 import { Picker } from '@react-native-picker/picker'
 import { StyleSheet, ScrollView } from 'react-native'
 import { font } from '../theme'
@@ -57,7 +57,7 @@ export default ({ navigation, route }: NativeStackScreenProps<HomeStackParamList
               rules={{ required: true }}
               name="focus"
               render={({ field: { onChange, value } }) => (
-                <FormAccordion
+                <FormPickerWrapper
                   selectedLabel={i18n.t('x_min', { count: value })}
                   label={i18n.t('focus')}>
                   <Picker
@@ -75,7 +75,7 @@ export default ({ navigation, route }: NativeStackScreenProps<HomeStackParamList
                       />
                     ))}
                   </Picker>
-                </FormAccordion>
+                </FormPickerWrapper>
               )}
             />
           </FieldSpace>
@@ -85,7 +85,7 @@ export default ({ navigation, route }: NativeStackScreenProps<HomeStackParamList
               rules={{ required: true }}
               name="shortBreak"
               render={({ field: { onChange, value } }) => (
-                <FormAccordion
+                <FormPickerWrapper
                   selectedLabel={i18n.t('x_min', { count: value })}
                   label={i18n.t('short_break')}>
                   <Picker
@@ -103,7 +103,7 @@ export default ({ navigation, route }: NativeStackScreenProps<HomeStackParamList
                       />
                     ))}
                   </Picker>
-                </FormAccordion>
+                </FormPickerWrapper>
               )}
             />
           </FieldSpace>
@@ -113,7 +113,7 @@ export default ({ navigation, route }: NativeStackScreenProps<HomeStackParamList
               rules={{ required: true }}
               name="longBreak"
               render={({ field: { onChange, value } }) => (
-                <FormAccordion
+                <FormPickerWrapper
                   selectedLabel={i18n.t('x_min', { count: value })}
                   label={i18n.t('long_break')}>
                   <Picker
@@ -131,7 +131,7 @@ export default ({ navigation, route }: NativeStackScreenProps<HomeStackParamList
                       />
                     ))}
                   </Picker>
-                </FormAccordion>
+                </FormPickerWrapper>
               )}
             />
           </FieldSpace>
@@ -141,7 +141,7 @@ export default ({ navigation, route }: NativeStackScreenProps<HomeStackParamList
               rules={{ required: true }}
               name="sections"
               render={({ field: { onChange, value } }) => (
-                <FormAccordion
+                <FormPickerWrapper
                   selectedLabel={`${value} ${i18n.t('interval', { count: value })}`}
                   label={i18n.t('sections')}>
                   <Picker
@@ -159,7 +159,7 @@ export default ({ navigation, route }: NativeStackScreenProps<HomeStackParamList
                       />
                     ))}
                   </Picker>
-                </FormAccordion>
+                </FormPickerWrapper>
               )}
             />
           </FieldSpace>
@@ -169,7 +169,7 @@ export default ({ navigation, route }: NativeStackScreenProps<HomeStackParamList
               rules={{ required: true }}
               name="intervalsForLongBreak"
               render={({ field: { onChange, value } }) => (
-                <FormAccordion
+                <FormPickerWrapper
                   selectedLabel={`${value} ${i18n.t('interval', { count: value })}`}
                   label={i18n.t('long_break_after')}>
                   <Picker
@@ -187,7 +187,7 @@ export default ({ navigation, route }: NativeStackScreenProps<HomeStackParamList
                       />
                     ))}
                   </Picker>
-                </FormAccordion>
+                </FormPickerWrapper>
               )}
             />
           </FieldSpace>

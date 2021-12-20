@@ -8,7 +8,7 @@ const config: Config.InitialOptions = {
   ],
   setupFilesAfterEnv: ['@testing-library/jest-native/extend-expect', './jest-setup.ts'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  setupFiles: ['./jest-setup.ts']
+  setupFiles: ['./jest-setup.ts', 'jest-date-mock']
 }
 
 export default config

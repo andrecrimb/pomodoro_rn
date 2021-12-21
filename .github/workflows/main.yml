@@ -10,27 +10,32 @@ on:
 
 jobs:   
   test:
+    name: Run unit and integration tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Yarn Setup
-        uses: DerYeger/yarn-setup-action@v1.0.1
+      - uses: actions/setup-node@v2
         with:
           node-version: 15.14.0
-      - name: Run unit and integration tests
-        run: yarn test
+      - run: yarn test
 
-  publish_expo_server:
+  publish_expo:
+    name: Install and publish to Expo hosting
     needs: [test]
     environment: 
       name: Development
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v2
-      - name: Expo GitHub Action
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 15.14.0
+      - name: Setup Expo 
         uses: expo/expo-github-action@6.0.0
         with:
-          username: ${{ secrets.EXPO_USERNAME }}
-          password: ${{ secrets.EXPO_PASSWORD }}
+          expo-version: 4.x
+          token: ${{ secrets.EXPO_TOKEN }}
+      - run: yarn install
       - name: Deploy to Expo hosting
         run: expo publish

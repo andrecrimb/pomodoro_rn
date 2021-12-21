@@ -26,6 +26,8 @@ jobs:
 
   publish_expo_server:
     needs: [test]
+    environment: 
+      name: Development
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v2

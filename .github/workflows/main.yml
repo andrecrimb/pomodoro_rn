@@ -14,25 +14,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
-  install: 
-    runs-on: ubuntu-latest
-    
-    steps: 
-      - uses: actions/checkout@v2
-      
-      - name: Yarn Setup
-        # You may pin to the exact commit or the version.
-        # uses: DerYeger/yarn-setup-action@f55be5383ea94f5eb25b20aee609af4603a68dde
-        uses: DerYeger/yarn-setup-action@v1.0.1
-        with:
-          # The version of Node.js that will be used
-          node-version: 15.14.0
-    
-      - name: Install project node_modules
-        run: yarn 
-        
   test:
-    needs: [install]
     runs-on: ubuntu-latest
     strategy: 
       matrix: 
@@ -40,8 +22,8 @@ jobs:
         
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2.5.0
+      - name: Yarn Setup
+        uses: DerYeger/yarn-setup-action@v1.0.1
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -49,6 +31,6 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
-          npm test --all
+          yarn test --all
           echo test, and deploy your project.
     

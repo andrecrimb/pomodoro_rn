@@ -8,7 +8,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest --watch --detectOpenHandles"
+    "test": "jest",
+    "test:watch": "jest --watch --detectOpenHandles"
   },
   "dependencies": {
     "@emotion/native": "^11.0.0",

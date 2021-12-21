@@ -15,7 +15,7 @@ it('renders component without errors and fires click event', async () => {
 
   //* renders component with success
   expect(button).toBeTruthy()
-  expect(button.getByText(/click me should not find/i)).toBeTruthy()
+  expect(button.getByText(/click me/i)).toBeTruthy()
 
   //* click event works
   fireEvent.press(button.getByText(/click me/i))

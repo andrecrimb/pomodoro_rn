@@ -25,6 +25,7 @@ jobs:
     needs: [test]
     environment: 
       name: Development
+      url: https://expo.dev/@andrerosa/pomodoro_rn
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v2

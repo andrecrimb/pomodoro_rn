@@ -12,19 +12,35 @@ on:
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-
+jobs:   
   test:
     runs-on: ubuntu-latest
-    strategy: 
-      matrix: 
-        node-version: [15.14.0]
-        
     steps:
       - uses: actions/checkout@v2
       - name: Yarn Setup
         uses: DerYeger/yarn-setup-action@v1.0.1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 15.14.0
       - name: Run unit and integration tests
         run: yarn test
+
+  publish_expo_server:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v2
+      - name: Super-Linter
+        uses: github/super-linter@v4.8.5
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: master
+      - name: Expo GitHub Action
+        uses: expo/expo-github-action@6.0.0
+        with:
+          # Your Expo username, for authentication.
+          username: # optional
+          # Your Expo token, for authentication. (use with secrets)
+          token: # optional
+          # Your Expo password, for authentication. (use with secrets)
+          password: # optional
+          # The package manager used to install the Expo CLI. (can be yarn or npm)

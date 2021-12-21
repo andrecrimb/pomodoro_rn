@@ -28,16 +28,15 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v2
-      - name: Setup yarn
-        uses: Borales/actions-yarn@v2.3.0
-        #uses: actions/setup-node@v2
+      #- uses: Borales/actions-yarn@v2.3.0
+      - uses: actions/setup-node@v2
         with:
           node-version: 15.14.0
+      - run: yarn install
       - name: Setup Expo 
         uses: expo/expo-github-action@6.0.0
         with:
           expo-version: 5.x
           token: ${{ secrets.EXPO_TOKEN }}
-      - run: yarn install
       - name: Deploy to Expo hosting
         run: expo publish

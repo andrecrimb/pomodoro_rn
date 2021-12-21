@@ -35,7 +35,7 @@ jobs:
       - name: Setup Expo 
         uses: expo/expo-github-action@6.0.0
         with:
-          expo-version: 4.x
+          expo-version: 5.x
           token: ${{ secrets.EXPO_TOKEN }}
       - run: yarn install
       - name: Deploy to Expo hosting

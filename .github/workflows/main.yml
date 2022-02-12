@@ -40,5 +40,5 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
       - name: Deploy to Expo hosting
         run: | 
-          yarn install expo-updates
+          yarn add expo-updates
           expo publish

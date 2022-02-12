@@ -1,4 +1,4 @@
-import { asEffect, useMachine } from '@xstate/react'
+import { useMachine } from '@xstate/react'
 import { useMemo } from 'react'
 import createTimeTrackerMachine, {
   TimerStates,
@@ -7,27 +7,25 @@ import createTimeTrackerMachine, {
 import { Timer } from '../types/timer'
 import { MachineContext, MachineEvents } from '../types/timerMachine'
 
-export type States = keyof typeof TimerStates
-
 export default (timer: Timer) => {
   const machine = useMemo(() => createTimeTrackerMachine(timer), [])
   const [current, send] = useMachine<MachineContext, MachineEvents>(machine)
 
-  const currState: States = useMemo(() => {
-    if (current.matches(TimerStates.focus)) return TimerStates.focus
-    if (current.matches(TimerStates.longBreak)) return TimerStates.longBreak
-    if (current.matches(TimerStates.shortBreak)) return TimerStates.shortBreak
-    return TimerStates.done
+  const currState: TimerStates = useMemo(() => {
+    if (current.matches(TimerStates.FOCUS)) return TimerStates.FOCUS
+    if (current.matches(TimerStates.LONG_BREAK)) return TimerStates.LONG_BREAK
+    if (current.matches(TimerStates.SHORT_BREAK)) return TimerStates.SHORT_BREAK
+    return TimerStates.DONE
   }, [current.value])
 
   const paused =
-    !current.matches({ [TimerStates.focus]: SectionStates.running }) &&
-    !current.matches({ [TimerStates.shortBreak]: SectionStates.running }) &&
-    !current.matches({ [TimerStates.longBreak]: SectionStates.running })
+    !current.matches({ [TimerStates.FOCUS]: SectionStates.RUNNING }) &&
+    !current.matches({ [TimerStates.SHORT_BREAK]: SectionStates.RUNNING }) &&
+    !current.matches({ [TimerStates.LONG_BREAK]: SectionStates.RUNNING })
 
   const togglePause = () => send(paused ? 'CONTINUE' : 'PAUSE')
 
-  const currInterval = currState !== 'done' ? current.context[currState] : null
+  const currInterval = currState !== TimerStates.DONE ? current.context[currState] : null
 
   return { currState, paused, togglePause, context: current.context, currInterval }
 }

@@ -2,22 +2,22 @@ import { assign, createMachine } from 'xstate'
 import { MachineContext, MachineEvents, MachineInitializer } from '../types/timerMachine'
 
 export enum TimerStates {
-  focus = 'focus',
-  shortBreak = 'shortBreak',
-  longBreak = 'longBreak',
-  done = 'done'
+  FOCUS = 'focus',
+  SHORT_BREAK = 'shortBreak',
+  LONG_BREAK = 'longBreak',
+  DONE = 'done'
 }
 
 export enum SectionStates {
-  paused = 'paused',
-  running = 'running'
+  PAUSED = 'paused',
+  RUNNING = 'running'
 }
 
 const createTimeTrackerMachine = (initializer: MachineInitializer) =>
   createMachine<MachineContext, MachineEvents>(
     {
       id: 'time_tracker_machine',
-      initial: TimerStates.focus,
+      initial: TimerStates.FOCUS,
       context: {
         ...initializer,
         completedSections: 0,
@@ -25,70 +25,70 @@ const createTimeTrackerMachine = (initializer: MachineInitializer) =>
         sectionTimeout: null as Date | null
       },
       states: {
-        [TimerStates.focus]: {
+        [TimerStates.FOCUS]: {
           entry: ['setSectionTimeoutFromFocus', 'clearPausedTime'],
           exit: 'increaseCompletedSections',
-          initial: SectionStates.running,
+          initial: SectionStates.RUNNING,
           states: {
-            [SectionStates.running]: {
+            [SectionStates.RUNNING]: {
               entry: 'setSectionTimeoutFromDiffPausedTime',
               invoke: { id: 'timerInterval', src: 'timerInterval' },
-              on: { PAUSE: SectionStates.paused }
+              on: { PAUSE: SectionStates.PAUSED }
             },
-            [SectionStates.paused]: {
+            [SectionStates.PAUSED]: {
               entry: 'setPausedTime',
-              on: { CONTINUE: SectionStates.running }
+              on: { CONTINUE: SectionStates.RUNNING }
             }
           },
           on: {
             COMPLETED: [
               {
-                target: TimerStates.done,
+                target: TimerStates.DONE,
                 cond: 'sectionsCompleted'
               },
               {
-                target: TimerStates.longBreak,
+                target: TimerStates.LONG_BREAK,
                 cond: 'focusCompletedGoToLongBreak'
               },
               {
-                target: TimerStates.shortBreak
+                target: TimerStates.SHORT_BREAK
               }
             ]
           }
         },
-        [TimerStates.shortBreak]: {
+        [TimerStates.SHORT_BREAK]: {
           entry: ['setSectionTimeoutFromShortBreak', 'clearPausedTime'],
-          initial: SectionStates.running,
+          initial: SectionStates.RUNNING,
           states: {
-            [SectionStates.running]: {
+            [SectionStates.RUNNING]: {
               entry: 'setSectionTimeoutFromDiffPausedTime',
               invoke: { id: 'timerInterval', src: 'timerInterval' },
-              on: { PAUSE: SectionStates.paused }
+              on: { PAUSE: SectionStates.PAUSED }
             },
-            [SectionStates.paused]: {
+            [SectionStates.PAUSED]: {
               entry: 'setPausedTime',
-              on: { CONTINUE: SectionStates.running }
+              on: { CONTINUE: SectionStates.RUNNING }
             }
           },
-          on: { COMPLETED: TimerStates.focus }
+          on: { COMPLETED: TimerStates.FOCUS }
         },
-        [TimerStates.longBreak]: {
+        [TimerStates.LONG_BREAK]: {
           entry: ['setSectionTimeoutFromLongBreak', 'clearPausedTime'],
-          initial: SectionStates.running,
+          initial: SectionStates.RUNNING,
           states: {
-            [SectionStates.running]: {
+            [SectionStates.RUNNING]: {
               entry: 'setSectionTimeoutFromDiffPausedTime',
               invoke: { id: 'timerInterval', src: 'timerInterval' },
-              on: { PAUSE: SectionStates.paused }
+              on: { PAUSE: SectionStates.PAUSED }
             },
-            [SectionStates.paused]: {
+            [SectionStates.PAUSED]: {
               entry: 'setPausedTime',
-              on: { CONTINUE: SectionStates.running }
+              on: { CONTINUE: SectionStates.RUNNING }
             }
           },
-          on: { COMPLETED: TimerStates.focus }
+          on: { COMPLETED: TimerStates.FOCUS }
         },
-        [TimerStates.done]: { type: 'final' }
+        [TimerStates.DONE]: { type: 'final' }
       }
     },
     {

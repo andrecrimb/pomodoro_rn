@@ -12,7 +12,7 @@ import { ReText } from 'react-native-redash'
 import useInterval from '../hooks/useInterval'
 import i18n from '../i18n'
 import { convertMillisecondsToTimeout } from '../utils'
-import { States } from '../hooks/useTimerMachine'
+import { TimerStates } from '../machines/timeTrackerMachine'
 
 type Props = {
   timeout: Date | null
@@ -20,7 +20,7 @@ type Props = {
   completedSections: number
   currInterval: number | null
   paused: boolean
-  currState: States
+  currState: TimerStates
 }
 
 const { width } = Dimensions.get('window')
@@ -104,7 +104,6 @@ export default ({
 }
 
 //#region Styles
-
 const styles = StyleSheet.create({
   svg: { width: size, height: size, position: 'absolute', transform: [{ rotate: '-90deg' }] },
   wrapper: {

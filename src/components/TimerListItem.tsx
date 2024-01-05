@@ -19,7 +19,11 @@ import { Timer } from '../types/timer'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { HomeStackParamList } from '../types/stackParamList'
-import { PanGestureHandler, PanGestureHandlerGestureEvent } from 'react-native-gesture-handler'
+import {
+  GestureHandlerRootView,
+  PanGestureHandler,
+  PanGestureHandlerGestureEvent
+} from 'react-native-gesture-handler'
 import DeleteButton from './DeleteButton'
 import useTimers from '../hooks/useTimers'
 import * as Haptics from 'expo-haptics'
@@ -104,7 +108,7 @@ export default ({ item }: Props) => {
   )
 
   return (
-    <>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <PanGestureHandler onGestureEvent={gestureHandler}>
         <Animated.View style={[styles.cell, cellAnimStyles]}>
           <Cell onPress={() => navigation.push('editTimer', item)} underlayColor={grey[700]}>
@@ -115,12 +119,7 @@ export default ({ item }: Props) => {
                   <CellAdditionalInfo>
                     {i18n.t('focus')} {i18n.t('x_min', { count: item.focus })}
                   </CellAdditionalInfo>
-                  <Octicons
-                    name="primitive-dot"
-                    style={styles.dot}
-                    size={14}
-                    color={primary.main}
-                  />
+                  <Octicons name="dot-fill" style={styles.dot} size={14} color={primary.main} />
                   <CellAdditionalInfo>
                     {item.sections} {i18n.t('interval', { count: item.sections })}
                   </CellAdditionalInfo>
@@ -134,7 +133,7 @@ export default ({ item }: Props) => {
       <Animated.View style={[styles.deleteBtn, deleteBtnAnimStyles]}>
         <DeleteButton onPress={() => removeTimer(item.id)} />
       </Animated.View>
-    </>
+    </GestureHandlerRootView>
   )
 }
 

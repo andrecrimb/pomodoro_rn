@@ -87,6 +87,7 @@ export default ({
           stroke={primary.dark}
           strokeWidth={strokeWidth}
           strokeLinecap="round"
+          fill={'transparent'}
         />
         <AnimatedCircle
           cx={cx}
@@ -97,6 +98,7 @@ export default ({
           strokeLinecap="round"
           strokeDasharray={circumference}
           animatedProps={animatedProps}
+          fill={'transparent'}
         />
       </Svg>
     </View>
@@ -105,7 +107,12 @@ export default ({
 
 //#region Styles
 const styles = StyleSheet.create({
-  svg: { width: size, height: size, position: 'absolute', transform: [{ rotate: '-90deg' }] },
+  svg: {
+    width: size,
+    height: size,
+    position: 'absolute',
+    transform: [{ rotate: '-90deg' }]
+  },
   wrapper: {
     width: size,
     height: size,

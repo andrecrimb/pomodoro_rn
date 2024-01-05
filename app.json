@@ -3,7 +3,7 @@
     "name": "Time Tracker",
     "slug": "pomodoro_rn",
     "version": "1.0.0",
-    "owner": "andrerosa",
+    "owner": "andrecrimberg",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -30,6 +30,9 @@
       "favicon": "./assets/favicon.png"
     },
     "description": "Track your time and increase your productivity using the Pomodoro method.",
-    "githubUrl": "https://github.com/andrecrimb/pomodoro_rn"
+    "githubUrl": "https://github.com/andrecrimb/pomodoro_rn",
+    "plugins": [
+      "expo-localization"
+    ]
   }
 }

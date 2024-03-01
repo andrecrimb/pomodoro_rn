@@ -19,7 +19,7 @@
     "@react-native-picker/picker": "2.4.10",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
-    "@xstate/react": "^1.6.3",
+    "@xstate/react": "4.1.0",
     "expo": "49.0.21",
     "expo-app-loading": "~1.2.1",
     "expo-av": "~13.4.1",
@@ -42,7 +42,7 @@
     "react-native-screens": "~3.22.0",
     "react-native-svg": "13.9.0",
     "react-native-web": "~0.19.6",
-    "xstate": "^4.26.1"
+    "xstate": "5.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -12,7 +12,7 @@ import { ReText } from 'react-native-redash'
 import useInterval from '../hooks/useInterval'
 import i18n from '../i18n'
 import { convertMillisecondsToTimeout } from '../utils'
-import { TimerStates } from '../machines/timeTrackerMachine'
+import { TimerStates } from '../hooks/useTimer'
 
 type Props = {
   timeout: Date | null
@@ -20,7 +20,7 @@ type Props = {
   completedSections: number
   currInterval: number | null
   paused: boolean
-  currState: TimerStates
+  currState: TimerStates | null
 }
 
 const { width } = Dimensions.get('window')

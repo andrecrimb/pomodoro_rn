@@ -12,13 +12,21 @@ import { primary } from '../theme'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { HomeStackParamList } from '../types/stackParamList'
 import TimerCircle from '../components/TimerCircle'
-import useTimerMachine from '../hooks/useTimerMachine'
+import { TimerStates, useTimer } from '../hooks/useTimer'
 import useSound from '../hooks/useSound'
 
-export default ({
+export const RunningTimer = ({
   route: { params: timer }
 }: NativeStackScreenProps<HomeStackParamList, 'runningTimer'>) => {
-  const { currState, togglePause, paused, context, currInterval } = useTimerMachine(timer)
+  const {
+    currentState,
+    togglePause,
+    isPaused,
+    sectionTimeout,
+    sections,
+    currentInterval,
+    completedSections
+  } = useTimer(timer)
   const { playSectionCompleted, playTimerCompleted } = useSound()
 
   const scale = useSharedValue(0)
@@ -33,7 +41,7 @@ export default ({
   }, [])
 
   React.useEffect(() => {
-    if (currState === 'done') {
+    if (currentState === TimerStates.DONE) {
       ;(async function () {
         await playTimerCompleted()
       })()
@@ -42,25 +50,25 @@ export default ({
         await playSectionCompleted()
       })()
     }
-  }, [currState])
+  }, [currentState])
 
   const onPause = () => togglePause()
 
   return (
     <Wrapper>
       <TimerCircle
-        currState={currState}
-        paused={paused}
-        sections={context.sections}
-        currInterval={currInterval}
-        timeout={context.sectionTimeout}
-        completedSections={context.completedSections}
+        currState={currentState}
+        paused={isPaused}
+        sections={sections}
+        currInterval={currentInterval}
+        timeout={sectionTimeout}
+        completedSections={completedSections}
       />
       <Animated.View style={[styles.defaultMainButton, animatedButtonStyle]}>
         <TouchableOpacity onPress={onPause}>
           <PlayWrapper>
             <Ionicons
-              name={paused ? 'play' : 'pause'}
+              name={isPaused ? 'play' : 'pause'}
               size={60}
               style={{ marginLeft: 3 }}
               color={primary.main}
@@ -90,5 +98,4 @@ const PlayWrapper = styled.View`
   height: 100px;
   border-radius: 60px;
 `
-
 //#endregion

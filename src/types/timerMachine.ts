@@ -1,6 +1,10 @@
 import { Timer } from './timer'
 
-export type MachineInitializer = Omit<Timer, 'id' | 'name'>
+type MachineInitializer = Omit<Timer, 'id' | 'name'>
+
+export type MachineInput = {
+  contextInitializer: MachineInitializer
+}
 
 export type MachineContext = MachineInitializer & {
   completedSections: number
@@ -8,4 +12,4 @@ export type MachineContext = MachineInitializer & {
   sectionTimeout: Date | null
 }
 
-export type MachineEvents = { type: 'COMPLETED' } | { type: 'PAUSE' } | { type: 'CONTINUE' }
+export type MachineEvents = { type: 'PAUSE' } | { type: 'CONTINUE' } | { type: 'TICK' }

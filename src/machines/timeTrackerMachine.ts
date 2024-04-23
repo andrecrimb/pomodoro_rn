@@ -71,7 +71,7 @@ export const timeTrackerMachine = setup({
     })
   }
 }).createMachine({
-  id: 'time_tracker_machine',
+  id: 'time_tracker',
   initial: 'FOCUS',
   context: ({ input }) => ({
     ...input.contextInitializer,
@@ -92,15 +92,15 @@ export const timeTrackerMachine = setup({
             PAUSE: 'PAUSED',
             TICK: [
               {
-                target: 'DONE',
+                target: '#time_tracker.DONE',
                 guard: and(['isTimeout', 'sectionsCompleted'])
               },
               {
-                target: 'LONG_BREAK',
+                target: '#time_tracker.LONG_BREAK',
                 guard: and(['isTimeout', 'focusCompletedGoToLongBreak'])
               },
               {
-                target: 'SHORT_BREAK',
+                target: '#time_tracker.SHORT_BREAK',
                 guard: 'isTimeout'
               }
             ]
@@ -122,7 +122,7 @@ export const timeTrackerMachine = setup({
           on: {
             PAUSE: 'PAUSED',
             TICK: {
-              target: 'FOCUS',
+              target: '#time_tracker.FOCUS',
               guard: 'isTimeout'
             }
           }
@@ -143,7 +143,7 @@ export const timeTrackerMachine = setup({
           on: {
             PAUSE: 'PAUSED',
             TICK: {
-              target: 'FOCUS',
+              target: '#time_tracker.FOCUS',
               guard: 'isTimeout'
             }
           }

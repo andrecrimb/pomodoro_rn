@@ -2,7 +2,7 @@ import React from 'react'
 import { ThemeProvider } from '@emotion/react'
 import { NavigationContainer } from '@react-navigation/native'
 import theme from '../theme'
-import AppLoading from 'expo-app-loading'
+import * as SplashScreen from 'expo-splash-screen'
 import {
   useFonts,
   Spartan_400Regular,
@@ -15,6 +15,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import '../i18n'
 import { TimersProvider } from './TimersContext'
 
+SplashScreen.preventAutoHideAsync()
+
 const AppProviders = ({ children }: { children: React.ReactNode }) => {
   const [fontsLoaded] = useFonts({
     Spartan_400Regular,
@@ -22,7 +24,11 @@ const AppProviders = ({ children }: { children: React.ReactNode }) => {
     Spartan_700Bold
   })
 
-  if (!fontsLoaded) return <AppLoading />
+  React.useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync()
+    }
+  }, [fontsLoaded])
 
   return (
     <ThemeProvider theme={theme.dark}>

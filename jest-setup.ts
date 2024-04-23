@@ -1,7 +1,6 @@
 jest.useFakeTimers()
 //@ts-ignore
-import { setUpTests } from 'react-native-reanimated/lib/reanimated2/jestUtils'
-setUpTests()
+require('react-native-reanimated').setUpTests()
 
 export const reanimatedSetup = () => {
   // in a test setup file, or your test itself

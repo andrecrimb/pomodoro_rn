@@ -1,5 +1,6 @@
 import { assign, setup, fromCallback, CallbackActorLogic, and } from 'xstate'
 import { MachineContext, MachineEvents, MachineInput } from '../types/timerMachine'
+import dayjs from 'dayjs'
 
 const tickInterval: CallbackActorLogic<MachineEvents> = fromCallback<MachineEvents>(
   ({ sendBack, receive }) => {
@@ -28,25 +29,13 @@ export const timeTrackerMachine = setup({
   },
   actions: {
     setSectionTimeoutFromFocus: assign({
-      sectionTimeout: ({ context }) => {
-        const newSectionTimeout = new Date()
-        newSectionTimeout.setMinutes(newSectionTimeout.getMinutes() + context.focus)
-        return newSectionTimeout
-      }
+      sectionTimeout: ({ context }) => dayjs().add(context.focus, 'minute').toDate()
     }),
     setSectionTimeoutFromLongBreak: assign({
-      sectionTimeout: ({ context }) => {
-        const newSectionTimeout = new Date()
-        newSectionTimeout.setMinutes(newSectionTimeout.getMinutes() + context.longBreak)
-        return newSectionTimeout
-      }
+      sectionTimeout: ({ context }) => dayjs().add(context.longBreak, 'minute').toDate()
     }),
     setSectionTimeoutFromShortBreak: assign({
-      sectionTimeout: ({ context }) => {
-        const newSectionTimeout = new Date()
-        newSectionTimeout.setMinutes(newSectionTimeout.getMinutes() + context.shortBreak)
-        return newSectionTimeout
-      }
+      sectionTimeout: ({ context }) => dayjs().add(context.shortBreak, 'minute').toDate()
     }),
     setSectionTimeoutFromDiffPausedTime: assign({
       sectionTimeout: ({ context }) => {
@@ -58,10 +47,7 @@ export const timeTrackerMachine = setup({
           context.sectionTimeout.valueOf() - context.pausedTime.valueOf()
         )
 
-        const newSectionTimeout = new Date()
-        newSectionTimeout.setMilliseconds(newSectionTimeout.getMilliseconds() + sectionTimeLeft)
-
-        return newSectionTimeout
+        return dayjs().add(sectionTimeLeft, 'millisecond').toDate()
       }
     }),
     clearPausedTime: assign({ pausedTime: null }),

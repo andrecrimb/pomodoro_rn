@@ -94,7 +94,7 @@ export default ({ navigation, route }: NativeStackScreenProps<HomeStackParamList
                     selectedValue={value}
                     itemStyle={styles.pickerItem}
                     onValueChange={itemValue => onChange(itemValue)}>
-                    {createArr(15, 0).map(v => (
+                    {createArr(15, 1).map(v => (
                       <Picker.Item
                         key={v}
                         label={i18n.t('x_min', { count: v })}
@@ -122,7 +122,7 @@ export default ({ navigation, route }: NativeStackScreenProps<HomeStackParamList
                     selectedValue={value}
                     itemStyle={styles.pickerItem}
                     onValueChange={itemValue => onChange(itemValue)}>
-                    {createArr(30, 0, 5).map(v => (
+                    {createArr(30, 5, 5).map(v => (
                       <Picker.Item
                         key={v}
                         label={i18n.t('x_min', { count: v })}

@@ -11,7 +11,7 @@ import { font, primary } from '../theme'
 import { ReText } from 'react-native-redash'
 import useInterval from '../hooks/useInterval'
 import i18n from '../i18n'
-import { convertMillisecondsToTimeout } from '../utils'
+import { convertSecondsToTimeout } from '../utils'
 import { TimerStates } from '../hooks/useTimer'
 
 type Props = {
@@ -33,7 +33,7 @@ const circumference = r * 2 * Math.PI
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle)
 
-export default ({
+export const TimerCircle = ({
   timeout,
   currState,
   completedSections,
@@ -55,12 +55,12 @@ export default ({
     () => {
       if (timeout && currInterval) {
         const now = new Date()
-        const diff = Math.ceil((timeout.valueOf() - now.valueOf()) / 1000)
+        const diffInSeconds = Math.ceil((timeout.valueOf() - now.valueOf()) / 1000)
 
-        const interpolatedValue = interpolate(diff, [currInterval * 60, 0], [0, 1])
+        const interpolatedValue = interpolate(diffInSeconds, [currInterval * 60, 0], [0, 1])
         circleProgress.value = withTiming(interpolatedValue)
 
-        timeLeft.value = convertMillisecondsToTimeout(diff)
+        timeLeft.value = convertSecondsToTimeout(diffInSeconds)
       }
     },
     !paused && currInterval ? 1000 : null

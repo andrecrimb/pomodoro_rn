@@ -1,4 +1,4 @@
-import { useSelector } from '@xstate/react'
+import { useSelector, useActorRef } from '@xstate/react'
 import { useCallback, useMemo } from 'react'
 import { timeTrackerMachine } from '../machines/timeTrackerMachine'
 import { Timer } from '../types/timer'
@@ -12,11 +12,9 @@ export enum TimerStates {
 }
 
 export const useTimer = (timer: Timer) => {
-  const timerActor = useMemo(() => {
-    return createActor(timeTrackerMachine, {
-      input: { contextInitializer: timer }
-    })
-  }, [timer])
+  const timerActor = useActorRef(timeTrackerMachine, {
+    input: { contextInitializer: timer }
+  })
 
   const isPaused = useSelector(
     timerActor,
@@ -35,7 +33,7 @@ export const useTimer = (timer: Timer) => {
   })
 
   const togglePause = useCallback(
-    () => timerActor.send(isPaused ? { type: 'PAUSE' } : { type: 'CONTINUE' }),
+    () => timerActor.send(!isPaused ? { type: 'PAUSE' } : { type: 'CONTINUE' }),
     [isPaused]
   )
 

@@ -11,7 +11,7 @@ import Animated, {
 import { primary } from '../theme'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { HomeStackParamList } from '../types/stackParamList'
-import TimerCircle from '../components/TimerCircle'
+import { TimerCircle } from '../components/TimerCircle'
 import { TimerStates, useTimer } from '../hooks/useTimer'
 import useSound from '../hooks/useSound'
 

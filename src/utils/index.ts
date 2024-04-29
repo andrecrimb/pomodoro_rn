@@ -9,17 +9,12 @@ export const createArr = (length: number, startIndex: number = 1, space: number 
   return arr
 }
 
-export function convertMillisecondsToTimeout(secondsLeft: number) {
-  let minutes, seconds, total_minutes, total_seconds
+export function convertSecondsToTimeout(secondsLeft: number) {
+  const minutes = Math.floor(secondsLeft / 60)
+  const seconds = Math.floor(secondsLeft % 60)
 
-  total_seconds = secondsLeft
-  total_minutes = Math.floor(total_seconds / 60)
+  const formattedMinutes = minutes < 10 ? '0' + minutes : minutes
+  const formattedSeconds = seconds < 10 ? '0' + seconds : seconds
 
-  seconds = total_seconds % 60
-  minutes = total_minutes % 60
-
-  if (minutes > 0)
-    return `${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`
-
-  return `${seconds}`
+  return `${formattedMinutes}:${formattedSeconds}`
 }

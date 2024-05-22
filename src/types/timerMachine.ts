@@ -6,6 +6,13 @@ export type MachineInput = {
   contextInitializer: MachineInitializer
 }
 
+export enum MachineSection {
+  FOCUS = 'FOCUS',
+  SHORT_BREAK = 'SHORT_BREAK',
+  LONG_BREAK = 'LONG_BREAK',
+  PAUSED = 'PAUSED'
+}
+
 export type MachineContext = MachineInitializer & {
   completedSections: number
   pausedTime: Date | null

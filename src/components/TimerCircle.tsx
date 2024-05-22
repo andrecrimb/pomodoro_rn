@@ -71,12 +71,12 @@ export const TimerCircle = ({
       <View style={styles.infoWrapper}>
         <ReText style={styles.countdown} text={timeLeft} />
         <Text style={styles.infoLabel}>
-          {currState === 'focus'
+          {currState === TimerStates.FOCUS || currState === TimerStates.PAUSED
             ? i18n.t('round_x_of_y', { x: completedSections + 1, y: sections })
             : ''}
-          {currState === 'shortBreak' ? i18n.t('short_break') : ''}
-          {currState === 'longBreak' ? i18n.t('long_break') : ''}
-          {currState === 'done' ? i18n.t('completed') : ''}
+          {currState === TimerStates.SHORT_BREAK ? i18n.t('short_break') : ''}
+          {currState === TimerStates.LONG_BREAK ? i18n.t('long_break') : ''}
+          {currState === TimerStates.DONE ? i18n.t('completed') : ''}
         </Text>
       </View>
       <Svg style={styles.svg}>

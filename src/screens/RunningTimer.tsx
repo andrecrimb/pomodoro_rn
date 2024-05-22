@@ -14,10 +14,13 @@ import { HomeStackParamList } from '../types/stackParamList'
 import { TimerCircle } from '../components/TimerCircle'
 import { TimerStates, useTimer } from '../hooks/useTimer'
 import useSound from '../hooks/useSound'
+import { useKeepAwake } from 'expo-keep-awake'
 
 export const RunningTimer = ({
   route: { params: timer }
 }: NativeStackScreenProps<HomeStackParamList, 'runningTimer'>) => {
+  useKeepAwake()
+
   const {
     currentState,
     togglePause,

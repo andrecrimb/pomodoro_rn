@@ -22,7 +22,7 @@ export const timeTrackerMachine = setup({
   },
   guards: {
     isTimeout: ({ context }) =>
-      !!(context.sectionTimeout && new Date().valueOf() >= context.sectionTimeout.valueOf()),
+      !!(context.sectionTimeout && dayjs().toDate().valueOf() >= context.sectionTimeout.valueOf()),
     focusCompletedGoToLongBreak: ({ context }) =>
       (context.completedSections + 1) % context.intervalsForLongBreak === 0,
     sectionsCompleted: ({ context }) => context.sections === context.completedSections + 1
@@ -43,20 +43,19 @@ export const timeTrackerMachine = setup({
           return context.sectionTimeout
         }
 
-        const sectionTimeLeft = Math.ceil(
-          context.sectionTimeout.valueOf() - context.pausedTime.valueOf()
-        )
+        const millisecondsPaused = dayjs().diff(context.pausedTime, 'ms')
 
-        return dayjs().add(sectionTimeLeft, 'millisecond').toDate()
+        return dayjs(context.sectionTimeout).add(millisecondsPaused, 'ms').toDate()
       }
     }),
     clearPausedTime: assign({ pausedTime: null }),
-    setPausedTime: assign({ pausedTime: new Date() }),
+    setPausedTime: assign({ pausedTime: () => dayjs().toDate() }),
     increaseCompletedSections: assign({
       completedSections: ({ context }) => context.completedSections + 1
     })
   }
 }).createMachine({
+  /** @xstate-layout N4IgpgJg5mDOIC5QBcCWBbMB9ZAnAhgMYDWYuAdAGIDyAwgKoDK5ASvQHLsCS7A4gMQAFAIJMAogG0ADAF1EoAA4B7WKjRKAdvJAAPRACYALIfIBGAJwB2AMyH9VwwA5bxgDQgAnogCspqeW9zQwA2b2DrKW9LR0dLYIBfePc0TBwCEjIqOiZWDm4+fgAVLloAaWk5JBBlVXUtKr0EfX1rcn1HU0tI807vDst3LwRHFrMpYKD7Fu99S31E5IxsPCJSChoGZjZOHgFisolTSsUVNVRNbUbzKVNyKSkgwO97zvtBg1DyDtjoqPNgwymRyGBYgFLLdJrLKbXI7Ar7cr6Y7VU51S6Ia63e6PczPG5zczvBChbxffQPKSzaxhFqmUHgtKrTIbHIicQAEX4tGo7GK7Hoklk2hqZwuDQMxjMVls9ksThchiJIX8vms1kck2swS61npS0ZGQojAAEtQWIUsAAhFhiYSlWH5ARsxiC5EitHihCmbyGSzkczXaJarq0ok2fwPRw3bwRYLBfTePWpFaG8gms0W622+3bR1FErlIVVd3neqgRozIl+OzkbURUyzQzmWxWJMQplG03mq02u3kZ1iTnc3k8AUVYWo0vor0+v0BqRB7WU6ymInBKN3Uzapx2QzPUJtg1QgAyPN4PezDt2QlELvHxcnYvLiG9zXI1iDL1Mvri1iJtgjXFYiMYNAUPFMTzPC8+1za8EXvE5ainT14yJDo7mbOURijSxAkcRMkjBfUIMyU8+Gg+0ByHHk+THItENFMtdBfGZ9HfT8bm-SxfyJewI2-YJIm8H14wTBJQQ0JQIDgbQGRI3AJyQp9mIQABaBM-RCGZTGDSwtxuRVPEQVTSQDMyE2MXc1XAyFmWyRhFMY6d1IecgtP0HTtT0wTv147VaziZxrnjOJohsjtoRyWC+Ecj1nzUrdbnczzuP03yjIQPdzC+GxZW9HTxnMcLUxZZgqNi5D4vVUzEqkQw6v0YJvTiJUY3fPpOj03DgSagjFmTWzOwzCiKuUxpTAbExrHaZouiBFpQiJVUzFSuMohuXFxP69tU3TbssxgvJdlGpjxted8ZtmG4Ri1bw1x6AJ-l9fS5US4qoT2zNe0o29BxO6ctw1cgulxYwbCjBs7oy7U2McXqtU6OMRhBQi5MG8gyPPA7Sn+z0-HMRxgeawxbBCjpgirUZegawE7G-WZ3tIqDsavGKHyU06XwEomohJkJZnJ-8bkekn2hsXDprpVHiPRzGKP7X72Vx+KtwBDCuia+bhJajKZq+QJAXJck5ql7aj0ydkeTEZWVL8YEAgNoJ1yMQIBgy8wPJWj2RiBWISYIxIgA */
   id: 'time_tracker',
   initial: 'FOCUS',
   context: ({ input }) => ({

@@ -9,7 +9,7 @@ type Props = {
   onError?: () => void
 }
 
-export default () => {
+export const useTimers = () => {
   const { getItem: getItemStorage, setItem: setItemStorage } = useAsyncStorage('@timers')
   const data = React.useContext(TimersContext)
   const setData = React.useContext(TimersActionsContext)

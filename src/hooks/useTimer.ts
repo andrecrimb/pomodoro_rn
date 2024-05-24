@@ -1,5 +1,5 @@
 import { useSelector, useActorRef } from '@xstate/react'
-import { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { timeTrackerMachine } from '../machines/timeTrackerMachine'
 import { Timer } from '../types/timer'
 import { createActor } from 'xstate'

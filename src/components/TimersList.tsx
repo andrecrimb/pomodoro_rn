@@ -1,9 +1,9 @@
 import React from 'react'
 import { FlatList } from 'react-native'
-import useTimers from '../hooks/useTimers'
+import { useTimers } from '../hooks/useTimers'
 import { Timer } from '../types/timer'
-import EmptyTimerList from './EmptyTimerList'
-import TimerListItem from './TimerListItem'
+import { EmptyTimerList } from './EmptyTimerList'
+import { TimerListItem } from './TimerListItem'
 
 const renderItem = ({ item }: { item: Timer }) => {
   return <TimerListItem item={item} />

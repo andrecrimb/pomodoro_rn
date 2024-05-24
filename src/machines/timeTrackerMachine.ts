@@ -1,9 +1,9 @@
 import { assign, setup, fromCallback, CallbackActorLogic, and } from 'xstate'
-import { MachineContext, MachineEvents, MachineInput } from '../types/timerMachine'
+import { MachineContext, MachineEvents, MachineInput, MachineSection } from '../types/timerMachine'
 import dayjs from 'dayjs'
 
 const tickInterval: CallbackActorLogic<MachineEvents> = fromCallback<MachineEvents>(
-  ({ sendBack, receive }) => {
+  ({ sendBack }) => {
     const interval = setInterval(() => {
       sendBack({ type: 'TICK' })
     }, 1000)
@@ -28,24 +28,24 @@ export const timeTrackerMachine = setup({
     sectionsCompleted: ({ context }) => context.sections === context.completedSections + 1
   },
   actions: {
-    setSectionTimeoutFromFocus: assign({
-      sectionTimeout: ({ context }) => dayjs().add(context.focus, 'minute').toDate()
-    }),
-    setSectionTimeoutFromLongBreak: assign({
-      sectionTimeout: ({ context }) => dayjs().add(context.longBreak, 'minute').toDate()
-    }),
-    setSectionTimeoutFromShortBreak: assign({
-      sectionTimeout: ({ context }) => dayjs().add(context.shortBreak, 'minute').toDate()
-    }),
-    setSectionTimeoutFromDiffPausedTime: assign({
-      sectionTimeout: ({ context }) => {
-        if (!context.sectionTimeout || !context.pausedTime) {
-          return context.sectionTimeout
+    setSectionTimeout: assign({
+      sectionTimeout: ({ context }, params: { from: MachineSection }) => {
+        switch (params.from) {
+          case MachineSection.FOCUS:
+            return dayjs().add(context.focus, 'minute').toDate()
+          case MachineSection.LONG_BREAK:
+            return dayjs().add(context.longBreak, 'minute').toDate()
+          case MachineSection.SHORT_BREAK:
+            return dayjs().add(context.shortBreak, 'minute').toDate()
+          case MachineSection.PAUSED:
+            if (!context.sectionTimeout || !context.pausedTime) {
+              return context.sectionTimeout
+            }
+            const millisecondsPaused = dayjs().diff(context.pausedTime, 'ms')
+            return dayjs(context.sectionTimeout).add(millisecondsPaused, 'ms').toDate()
+          default:
+            return context.sectionTimeout
         }
-
-        const millisecondsPaused = dayjs().diff(context.pausedTime, 'ms')
-
-        return dayjs(context.sectionTimeout).add(millisecondsPaused, 'ms').toDate()
       }
     }),
     clearPausedTime: assign({ pausedTime: null }),
@@ -66,12 +66,15 @@ export const timeTrackerMachine = setup({
   }),
   states: {
     FOCUS: {
-      entry: ['setSectionTimeoutFromFocus', 'clearPausedTime'],
+      entry: [
+        { type: 'setSectionTimeout', params: { from: MachineSection.FOCUS } },
+        'clearPausedTime'
+      ],
       exit: 'increaseCompletedSections',
       initial: 'RUNNING',
       states: {
         RUNNING: {
-          entry: 'setSectionTimeoutFromDiffPausedTime',
+          entry: { type: 'setSectionTimeout', params: { from: MachineSection.PAUSED } },
           invoke: { src: 'tickInterval' },
           on: {
             PAUSE: 'PAUSED',
@@ -98,11 +101,14 @@ export const timeTrackerMachine = setup({
       }
     },
     SHORT_BREAK: {
-      entry: ['setSectionTimeoutFromShortBreak', 'clearPausedTime'],
+      entry: [
+        { type: 'setSectionTimeout', params: { from: MachineSection.SHORT_BREAK } },
+        'clearPausedTime'
+      ],
       initial: 'RUNNING',
       states: {
         RUNNING: {
-          entry: 'setSectionTimeoutFromDiffPausedTime',
+          entry: { type: 'setSectionTimeout', params: { from: MachineSection.PAUSED } },
           invoke: { src: 'tickInterval' },
           on: {
             PAUSE: 'PAUSED',
@@ -119,11 +125,14 @@ export const timeTrackerMachine = setup({
       }
     },
     LONG_BREAK: {
-      entry: ['setSectionTimeoutFromLongBreak', 'clearPausedTime'],
+      entry: [
+        { type: 'setSectionTimeout', params: { from: MachineSection.LONG_BREAK } },
+        'clearPausedTime'
+      ],
       initial: 'RUNNING',
       states: {
         RUNNING: {
-          entry: 'setSectionTimeoutFromDiffPausedTime',
+          entry: { type: 'setSectionTimeout', params: { from: MachineSection.PAUSED } },
           invoke: { src: 'tickInterval' },
           on: {
             PAUSE: 'PAUSED',

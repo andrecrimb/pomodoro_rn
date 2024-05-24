@@ -10,7 +10,7 @@ type Props = {
 }
 //#endregion
 
-export default ({ onPress }: Props) => {
+export const DeleteButton = ({ onPress }: Props) => {
   return (
     <TouchableOpacity onPress={onPress} accessible accessibilityLabel={i18n.t('delete')}>
       <Wrapper>

@@ -10,7 +10,7 @@ import { grey } from '../theme'
 import i18n from '../i18n'
 import { AntDesign } from '@expo/vector-icons'
 
-export default () => {
+export const EmptyTimerList = () => {
   const animatedArrowStyle = useAnimatedStyle(
     () => ({
       transform: [

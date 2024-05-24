@@ -10,7 +10,7 @@ type Props = {
 }
 //#endregion
 
-export default ({ onPress }: Props) => {
+export const PlayButton = ({ onPress }: Props) => {
   return (
     <TouchableOpacity
       onPress={onPress}

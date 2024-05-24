@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from '@emotion/native'
-import { TouchableOpacity, StyleSheet } from 'react-native'
+import { TouchableOpacity, StyleSheet, Vibration } from 'react-native'
 import { Ionicons, Feather } from '@expo/vector-icons'
 import Animated, {
   useAnimatedStyle,
@@ -50,6 +50,7 @@ export const RunningTimer = ({
   }, [])
 
   React.useEffect(() => {
+    Vibration.vibrate()
     if (currentState === TimerStates.DONE) {
       ;(async function () {
         await playTimerCompleted()

@@ -1,6 +1,6 @@
 import React from 'react'
 import i18n from '../i18n'
-import PlayButton from './PlayButton'
+import { PlayButton } from './PlayButton'
 import { Octicons } from '@expo/vector-icons'
 import { grey, primary } from '../theme'
 import Animated, {
@@ -24,8 +24,8 @@ import {
   PanGestureHandler,
   PanGestureHandlerGestureEvent
 } from 'react-native-gesture-handler'
-import DeleteButton from './DeleteButton'
-import useTimers from '../hooks/useTimers'
+import { DeleteButton } from './DeleteButton'
+import { useTimers } from '../hooks/useTimers'
 import * as Haptics from 'expo-haptics'
 
 const { width } = Dimensions.get('window')
@@ -34,7 +34,7 @@ const optionsWidth = 95
 type Props = { item: Timer }
 type NavigationProps = NativeStackNavigationProp<HomeStackParamList, 'home'>
 
-export default ({ item }: Props) => {
+export const TimerListItem = ({ item }: Props) => {
   const { removeTimer } = useTimers()
 
   const navigation = useNavigation<NavigationProps>()

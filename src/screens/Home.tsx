@@ -3,7 +3,7 @@ import TimersList from '../components/TimersList'
 import i18n from '../i18n'
 import Button from '../components/Button'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import SafeArea from '../components/SafeArea'
+import { SafeArea } from '../components/SafeArea'
 import { HomeStackParamList } from '../types/stackParamList'
 import styled from '@emotion/native'
 

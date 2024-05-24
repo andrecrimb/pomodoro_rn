@@ -7,7 +7,7 @@ type Props = {
   children: React.ReactNode
 }
 
-export default ({ label, children, selectedLabel }: Props) => {
+export const FormPickerWrapper = ({ label, children, selectedLabel }: Props) => {
   return (
     <Wrapper>
       <Header>

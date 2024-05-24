@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from '@emotion/native'
 import { TouchableOpacity, StyleSheet } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
+import { Ionicons, Feather } from '@expo/vector-icons'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -15,6 +15,7 @@ import { TimerCircle } from '../components/TimerCircle'
 import { TimerStates, useTimer } from '../hooks/useTimer'
 import useSound from '../hooks/useSound'
 import { useKeepAwake } from 'expo-keep-awake'
+import { useNavigation } from '@react-navigation/native'
 
 export const RunningTimer = ({
   route: { params: timer }
@@ -30,6 +31,11 @@ export const RunningTimer = ({
     currentInterval,
     completedSections
   } = useTimer(timer)
+
+  const navigation = useNavigation()
+
+  const isTimerDone = currentState === TimerStates.DONE
+
   const { playSectionCompleted, playTimerCompleted } = useSound()
 
   const scale = useSharedValue(0)
@@ -55,7 +61,7 @@ export const RunningTimer = ({
     }
   }, [currentState])
 
-  const onPause = () => togglePause()
+  const onButtonPress = isTimerDone ? navigation.goBack : togglePause
 
   return (
     <Wrapper>
@@ -68,14 +74,18 @@ export const RunningTimer = ({
         completedSections={completedSections}
       />
       <Animated.View style={[styles.defaultMainButton, animatedButtonStyle]}>
-        <TouchableOpacity onPress={onPause}>
+        <TouchableOpacity onPress={onButtonPress}>
           <PlayWrapper>
-            <Ionicons
-              name={isPaused ? 'play' : 'pause'}
-              size={60}
-              style={{ marginLeft: 3 }}
-              color={primary.main}
-            />
+            {isTimerDone ? (
+              <Feather name="check" size={60} color={primary.main} />
+            ) : (
+              <Ionicons
+                name={isPaused ? 'play' : 'pause'}
+                size={60}
+                style={{ marginLeft: 3 }}
+                color={primary.main}
+              />
+            )}
           </PlayWrapper>
         </TouchableOpacity>
       </Animated.View>

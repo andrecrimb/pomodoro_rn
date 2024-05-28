@@ -10,7 +10,7 @@ import { Picker } from '@react-native-picker/picker'
 import { StyleSheet, ScrollView } from 'react-native'
 import { font, grey } from '../theme'
 import { useForm, Controller } from 'react-hook-form'
-import InputField from '../components/InputField'
+import { InputField } from '../components/InputField'
 import { useTimers } from '../hooks/useTimers'
 import { createArr } from '../utils'
 

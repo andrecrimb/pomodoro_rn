@@ -14,7 +14,7 @@ type Props = {
   error?: string
 }
 
-export default ({
+export const InputField = ({
   placeholder,
   autoFocus = false,
   onChangeText,

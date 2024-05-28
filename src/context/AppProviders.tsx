@@ -10,11 +10,11 @@ import {
   Spartan_700Bold
 } from '@expo-google-fonts/spartan'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-
-//* setup internationalization
+import * as SystemUI from 'expo-system-ui'
 import '../i18n'
 import { TimersProvider } from './TimersContext'
 
+SystemUI.setBackgroundColorAsync(theme.dark.background)
 SplashScreen.preventAutoHideAsync()
 
 const AppProviders = ({ children }: { children: React.ReactNode }) => {

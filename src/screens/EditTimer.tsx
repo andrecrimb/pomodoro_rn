@@ -8,7 +8,7 @@ import { HomeStackParamList } from '../types/stackParamList'
 import { FormPickerWrapper } from '../components/FormPickerWrapper'
 import { Picker } from '@react-native-picker/picker'
 import { StyleSheet, ScrollView } from 'react-native'
-import { font } from '../theme'
+import theme, { font } from '../theme'
 import { useForm, Controller } from 'react-hook-form'
 import { InputField } from '../components/InputField'
 import { useTimers } from '../hooks/useTimers'
@@ -184,6 +184,7 @@ export default ({ navigation, route }: NativeStackScreenProps<HomeStackParamList
                         label={`${v} ${i18n.t('interval', { count: v })}`}
                         value={v}
                         color="#fff"
+                        style={styles.pickerItem}
                       />
                     ))}
                   </Picker>
@@ -217,7 +218,12 @@ const Footer = styled.View`
   margin: 10px 16px 5px 16px;
 `
 const styles = StyleSheet.create({
-  pickerItem: { fontFamily: font[500], color: '#fff', fontSize: 18 },
+  pickerItem: {
+    fontFamily: font[500],
+    color: '#fff',
+    fontSize: 18,
+    backgroundColor: theme.dark.grey[800]
+  },
   pickerWrapper: { position: 'relative', overflow: 'hidden' }
 })
 //#endregion

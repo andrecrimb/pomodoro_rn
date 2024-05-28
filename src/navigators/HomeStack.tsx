@@ -33,7 +33,7 @@ const HomeStack = () => {
         name="newTimer"
         options={({ navigation }) => ({
           title: i18n.t('new_timer'),
-          presentation: 'formSheet',
+          presentation: 'modal',
           headerLeft: () => <CloseButton onPress={() => navigation.pop()} />
         })}
       />
@@ -42,7 +42,7 @@ const HomeStack = () => {
         name="editTimer"
         options={({ route, navigation }) => ({
           title: route.params.name,
-          presentation: 'formSheet',
+          presentation: 'modal',
           headerLeft: () => <CloseButton onPress={() => navigation.pop()} />
         })}
       />

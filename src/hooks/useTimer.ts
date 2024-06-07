@@ -1,8 +1,7 @@
 import { useSelector, useActorRef } from '@xstate/react'
-import { useCallback } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { timeTrackerMachine } from '../machines/timeTrackerMachine'
 import { Timer } from '../types/timer'
-import { createActor } from 'xstate'
 
 export enum TimerStates {
   FOCUS = 'focus',
@@ -15,6 +14,21 @@ export const useTimer = (timer: Timer) => {
   const timerActor = useActorRef(timeTrackerMachine, {
     input: { contextInitializer: timer }
   })
+
+  const lastState = useRef(timerActor.getSnapshot().value)
+
+  useEffect(() => {
+    const aa = timerActor.subscribe(state => {
+      if (state.value !== lastState.current) {
+        console.log(JSON.stringify({ state: state.value, now: new Date().toISOString() }, null, 2))
+        lastState.current = state.value
+      }
+    })
+
+    return () => {
+      aa.unsubscribe()
+    }
+  }, [])
 
   const isPaused = useSelector(
     timerActor,

@@ -25,7 +25,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.andrecrimberg.pomodoro_rn"
     },
     "web": {
       "favicon": "./assets/favicon.png"

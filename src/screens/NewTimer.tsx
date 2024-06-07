@@ -109,6 +109,7 @@ export default ({ navigation }: NativeStackScreenProps<HomeStackParamList, 'newT
                         label={i18n.t('x_min', { count: v })}
                         value={v}
                         color="#fff"
+                        style={styles.pickerItem}
                       />
                     ))}
                   </Picker>
@@ -137,6 +138,7 @@ export default ({ navigation }: NativeStackScreenProps<HomeStackParamList, 'newT
                         label={i18n.t('x_min', { count: v })}
                         value={v}
                         color="#fff"
+                        style={styles.pickerItem}
                       />
                     ))}
                   </Picker>
@@ -165,6 +167,7 @@ export default ({ navigation }: NativeStackScreenProps<HomeStackParamList, 'newT
                         label={`${v} ${i18n.t('interval', { count: v })}`}
                         value={v}
                         color="#fff"
+                        style={styles.pickerItem}
                       />
                     ))}
                   </Picker>
@@ -193,6 +196,7 @@ export default ({ navigation }: NativeStackScreenProps<HomeStackParamList, 'newT
                         label={`${v} ${i18n.t('interval', { count: v })}`}
                         value={v}
                         color="#fff"
+                        style={styles.pickerItem}
                       />
                     ))}
                   </Picker>

@@ -6,13 +6,20 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { SafeArea } from '../components/SafeArea'
 import { HomeStackParamList } from '../types/stackParamList'
 import styled from '@emotion/native'
+import { displayLocalPushNotification } from '../utils/localPushNotification'
 
 const Home = ({ navigation }: NativeStackScreenProps<HomeStackParamList, 'home'>) => {
   return (
     <SafeArea>
       <TimersList />
       <Footer>
-        <Button onPress={() => navigation.push('newTimer')} title={i18n.t('new_timer')} />
+        <Button
+          onPress={() => {
+            displayLocalPushNotification('a', 'b')
+          }}
+          title={i18n.t('new_timer')}
+        />
+        {/* <Button onPress={() => navigation.push('newTimer')} title={i18n.t('new_timer')} /> */}
       </Footer>
     </SafeArea>
   )

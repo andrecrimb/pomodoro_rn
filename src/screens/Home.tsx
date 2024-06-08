@@ -13,13 +13,7 @@ const Home = ({ navigation }: NativeStackScreenProps<HomeStackParamList, 'home'>
     <SafeArea>
       <TimersList />
       <Footer>
-        <Button
-          onPress={() => {
-            displayLocalPushNotification('a', 'b')
-          }}
-          title={i18n.t('new_timer')}
-        />
-        {/* <Button onPress={() => navigation.push('newTimer')} title={i18n.t('new_timer')} /> */}
+        <Button onPress={() => navigation.push('newTimer')} title={i18n.t('new_timer')} />
       </Footer>
     </SafeArea>
   )

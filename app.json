@@ -1,4 +1,6 @@
 {
+  "name": "main",
+  "displayName": "Time Tracker",
   "expo": {
     "name": "Time Tracker",
     "slug": "pomodoro_rn",

@@ -23,7 +23,6 @@
     "dayjs": "^1.11.11",
     "expo": "~50.0.14",
     "expo-av": "~13.10.5",
-    "expo-dev-client": "~3.3.12",
     "expo-font": "~11.10.3",
     "expo-haptics": "~12.8.1",
     "expo-keep-awake": "~12.8.2",
@@ -48,6 +47,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@react-native/metro-config": "^0.74.84",
     "@types/react": "~18.2.45",
     "jest-date-mock": "^1.0.9",
     "typescript": "^5.1.3"

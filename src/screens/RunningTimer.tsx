@@ -8,7 +8,7 @@ import Animated, {
   withDelay,
   withSpring
 } from 'react-native-reanimated'
-import { primary } from '../theme'
+import theme, { primary } from '../theme'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { HomeStackParamList } from '../types/stackParamList'
 import { TimerCircle } from '../components/TimerCircle'
@@ -16,6 +16,7 @@ import { TimerStates, useTimer } from '../hooks/useTimer'
 import useSound from '../hooks/useSound'
 import { useKeepAwake } from 'expo-keep-awake'
 import { useNavigation } from '@react-navigation/native'
+import { FocusAwareStatusBar } from '../components/FocusAwareStatusBar'
 
 export const RunningTimer = ({
   route: { params: timer }
@@ -65,32 +66,35 @@ export const RunningTimer = ({
   const onButtonPress = isTimerDone ? navigation.goBack : togglePause
 
   return (
-    <Wrapper>
-      <TimerCircle
-        currState={currentState}
-        paused={isPaused}
-        sections={sections}
-        currInterval={currentInterval}
-        timeout={sectionTimeout}
-        completedSections={completedSections}
-      />
-      <Animated.View style={[styles.defaultMainButton, animatedButtonStyle]}>
-        <TouchableOpacity onPress={onButtonPress}>
-          <PlayWrapper>
-            {isTimerDone ? (
-              <Feather name="check" size={60} color={primary.main} />
-            ) : (
-              <Ionicons
-                name={isPaused ? 'play' : 'pause'}
-                size={60}
-                style={{ marginLeft: 3 }}
-                color={primary.main}
-              />
-            )}
-          </PlayWrapper>
-        </TouchableOpacity>
-      </Animated.View>
-    </Wrapper>
+    <>
+      <FocusAwareStatusBar backgroundColor={theme.dark.primary.main} barStyle={'light-content'} />
+      <Wrapper>
+        <TimerCircle
+          currState={currentState}
+          paused={isPaused}
+          sections={sections}
+          currInterval={currentInterval}
+          timeout={sectionTimeout}
+          completedSections={completedSections}
+        />
+        <Animated.View style={[styles.defaultMainButton, animatedButtonStyle]}>
+          <TouchableOpacity onPress={onButtonPress}>
+            <PlayWrapper>
+              {isTimerDone ? (
+                <Feather name="check" size={60} color={primary.main} />
+              ) : (
+                <Ionicons
+                  name={isPaused ? 'play' : 'pause'}
+                  size={60}
+                  style={{ marginLeft: 3 }}
+                  color={primary.main}
+                />
+              )}
+            </PlayWrapper>
+          </TouchableOpacity>
+        </Animated.View>
+      </Wrapper>
+    </>
   )
 }
 

@@ -19,4 +19,8 @@ export type MachineContext = MachineInitializer & {
   sectionTimeout: Date | null
 }
 
-export type MachineEvents = { type: 'PAUSE' } | { type: 'CONTINUE' } | { type: 'TICK' }
+export type MachineEvents =
+  | { type: 'PAUSE' }
+  | { type: 'CONTINUE' }
+  | { type: 'TICK' }
+  | { type: 'APP_WENT_BACKGROUND' }

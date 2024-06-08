@@ -3,9 +3,20 @@ import { MachineContext, MachineEvents, MachineInput, MachineSection } from '../
 import dayjs from 'dayjs'
 import { enhancedFromCallback } from './utils'
 import Timer from 'react-native-background-timer-android'
-import { Platform } from 'react-native'
-import notifee, { AndroidCategory, AndroidColor, AndroidImportance } from '@notifee/react-native'
+import { AppState, Platform } from 'react-native'
+import notifee from '@notifee/react-native'
 import { displayLocalPushNotification } from './actions'
+
+const appStateListener = enhancedFromCallback<MachineEvents>(({ sendBack }) => {
+  const subscription = AppState.addEventListener('change', (nextAppState: string) => {
+    if (nextAppState === 'background') {
+      sendBack({ type: 'APP_WENT_BACKGROUND' })
+    }
+  })
+  return () => {
+    subscription.remove()
+  }
+})
 
 const tickInterval: CallbackActorLogic<MachineEvents> = enhancedFromCallback<MachineEvents>(
   ({ sendBack }) => {
@@ -38,11 +49,8 @@ export const timeTrackerMachine = setup({
   },
   actors: {
     tickInterval,
-    foregroundService
-    /**
-     * TODO: Create app state actor which sends to the machine is in background
-     * each state should listen to this event and send a notification to the user
-     **/
+    foregroundService,
+    appStateListener
   },
   guards: {
     isTimeout: ({ context }) =>
@@ -89,16 +97,12 @@ export const timeTrackerMachine = setup({
     pausedTime: null as Date | null,
     sectionTimeout: null as Date | null
   }),
-  invoke: [
-    {
-      src: 'foregroundService'
-    }
-  ],
+  invoke: [{ src: 'foregroundService' }, { src: 'appStateListener' }],
   states: {
     FOCUS: {
       entry: [
         { type: 'setSectionTimeout', params: { from: MachineSection.FOCUS } },
-        { type: 'displayLocalPushNotification', params: { machineSection: MachineSection.FOCUS } },
+
         'clearPausedTime'
       ],
       exit: 'increaseCompletedSections',
@@ -109,6 +113,12 @@ export const timeTrackerMachine = setup({
           invoke: { src: 'tickInterval' },
           on: {
             PAUSE: 'PAUSED',
+            APP_WENT_BACKGROUND: {
+              actions: {
+                type: 'displayLocalPushNotification',
+                params: { machineSection: MachineSection.FOCUS }
+              }
+            },
             TICK: [
               {
                 target: '#time_tracker.DONE',
@@ -127,17 +137,22 @@ export const timeTrackerMachine = setup({
         },
         PAUSED: {
           entry: 'setPausedTime',
-          on: { CONTINUE: 'RUNNING' }
+          on: {
+            CONTINUE: 'RUNNING',
+            APP_WENT_BACKGROUND: {
+              actions: {
+                type: 'displayLocalPushNotification',
+                params: { machineSection: MachineSection.PAUSED }
+              }
+            }
+          }
         }
       }
     },
     SHORT_BREAK: {
       entry: [
         { type: 'setSectionTimeout', params: { from: MachineSection.SHORT_BREAK } },
-        {
-          type: 'displayLocalPushNotification',
-          params: { machineSection: MachineSection.SHORT_BREAK }
-        },
+
         'clearPausedTime'
       ],
       initial: 'RUNNING',
@@ -147,6 +162,12 @@ export const timeTrackerMachine = setup({
           invoke: { src: 'tickInterval' },
           on: {
             PAUSE: 'PAUSED',
+            APP_WENT_BACKGROUND: {
+              actions: {
+                type: 'displayLocalPushNotification',
+                params: { machineSection: MachineSection.SHORT_BREAK }
+              }
+            },
             TICK: {
               target: '#time_tracker.FOCUS',
               guard: 'isTimeout'
@@ -155,17 +176,21 @@ export const timeTrackerMachine = setup({
         },
         PAUSED: {
           entry: 'setPausedTime',
-          on: { CONTINUE: 'RUNNING' }
+          on: {
+            CONTINUE: 'RUNNING',
+            APP_WENT_BACKGROUND: {
+              actions: {
+                type: 'displayLocalPushNotification',
+                params: { machineSection: MachineSection.PAUSED }
+              }
+            }
+          }
         }
       }
     },
     LONG_BREAK: {
       entry: [
         { type: 'setSectionTimeout', params: { from: MachineSection.LONG_BREAK } },
-        {
-          type: 'displayLocalPushNotification',
-          params: { machineSection: MachineSection.LONG_BREAK }
-        },
         'clearPausedTime'
       ],
       initial: 'RUNNING',
@@ -175,6 +200,12 @@ export const timeTrackerMachine = setup({
           invoke: { src: 'tickInterval' },
           on: {
             PAUSE: 'PAUSED',
+            APP_WENT_BACKGROUND: {
+              actions: {
+                type: 'displayLocalPushNotification',
+                params: { machineSection: MachineSection.LONG_BREAK }
+              }
+            },
             TICK: {
               target: '#time_tracker.FOCUS',
               guard: 'isTimeout'
@@ -183,7 +214,15 @@ export const timeTrackerMachine = setup({
         },
         PAUSED: {
           entry: 'setPausedTime',
-          on: { CONTINUE: 'RUNNING' }
+          on: {
+            CONTINUE: 'RUNNING',
+            APP_WENT_BACKGROUND: {
+              actions: {
+                type: 'displayLocalPushNotification',
+                params: { machineSection: MachineSection.LONG_BREAK }
+              }
+            }
+          }
         }
       }
     },

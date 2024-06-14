@@ -1,14 +1,14 @@
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
+import { TouchableWithoutFeedback } from 'react-native'
 import Svg, { Path, G } from 'react-native-svg'
 
 type Props = {
   onPress: () => void
 }
 
-export default ({ onPress }: Props) => {
+export const TomatoButton = ({ onPress }: Props) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableWithoutFeedback onPress={onPress}>
       <Svg width="25px" height="26px" viewBox="0 0 25 26">
         <G id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
           <G id="iPhone-12" transform="translate(-329.000000, -14.000000)">
@@ -25,6 +25,6 @@ export default ({ onPress }: Props) => {
           </G>
         </G>
       </Svg>
-    </TouchableOpacity>
+    </TouchableWithoutFeedback>
   )
 }

@@ -1,14 +1,14 @@
-name: Test and deploy to Expo hosting
+name: Run tests
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
   workflow_dispatch:
 
-jobs:   
+jobs:
   test:
     name: Run unit and integration tests
     runs-on: ubuntu-latest
@@ -17,28 +17,5 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 16.x
-      - run: yarn 
+      - run: yarn
       - run: yarn test
-
-  publish_expo:
-    name: Install and publish to Expo hosting
-    needs: [test]
-    environment: 
-      name: Development
-      url: https://expo.dev/@andrerosa/pomodoro_rn
-    runs-on: ubuntu-latest
-    steps: 
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 16.x
-      - run: yarn install
-      - name: Setup Expo 
-        uses: expo/expo-github-action@6.0.0
-        with:
-          expo-version: 5.x
-          token: ${{ secrets.EXPO_TOKEN }}
-      - name: Deploy to Expo hosting
-        run: | 
-          yarn add expo-updates
-          expo publish

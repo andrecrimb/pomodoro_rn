@@ -23,7 +23,9 @@ const defaultValues = {
   intervalsForLongBreak: 3
 }
 
-export default ({ navigation }: NativeStackScreenProps<HomeStackParamList, 'newTimer'>) => {
+export const NewTimer = ({
+  navigation
+}: NativeStackScreenProps<HomeStackParamList, 'newTimer'>) => {
   const { addTimer } = useTimers()
 
   const {

@@ -14,7 +14,10 @@ import { InputField } from '../components/InputField'
 import { useTimers } from '../hooks/useTimers'
 import { createArr } from '../utils'
 
-export default ({ navigation, route }: NativeStackScreenProps<HomeStackParamList, 'editTimer'>) => {
+export const EditTimer = ({
+  navigation,
+  route
+}: NativeStackScreenProps<HomeStackParamList, 'editTimer'>) => {
   const { editTimer } = useTimers()
 
   const {

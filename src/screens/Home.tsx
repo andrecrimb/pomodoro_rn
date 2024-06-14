@@ -5,24 +5,22 @@ import Button from '../components/Button'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { SafeArea } from '../components/SafeArea'
 import { HomeStackParamList } from '../types/stackParamList'
-import styled from '@emotion/native'
-import { displayLocalPushNotification } from '../utils/localPushNotification'
+import { StyleSheet, View } from 'react-native'
 
-const Home = ({ navigation }: NativeStackScreenProps<HomeStackParamList, 'home'>) => {
+export const Home = ({ navigation }: NativeStackScreenProps<HomeStackParamList, 'home'>) => {
   return (
     <SafeArea>
       <TimersList />
-      <Footer>
+      <View style={styles.footer}>
         <Button onPress={() => navigation.push('newTimer')} title={i18n.t('new_timer')} />
-      </Footer>
+      </View>
     </SafeArea>
   )
 }
 
-//#region Styles
-const Footer = styled.View`
-  margin: 10px 16px 10px 16px;
-`
-//#endregion
-
-export default Home
+const styles = StyleSheet.create({
+  footer: {
+    marginVertical: 10,
+    marginHorizontal: 16
+  }
+})

@@ -8,7 +8,7 @@ import theme, { font, primary } from '../theme'
 import { TomatoButton } from '../components/TomatoButton'
 import { HomeStackParamList } from '../types/stackParamList'
 import { EditTimer } from '../screens/EditTimer'
-import CloseButton from '../components/CloseButton'
+import { CloseButton } from '../components/CloseButton'
 import { FocusAwareStatusBar } from '../components/FocusAwareStatusBar'
 
 const Stack = createNativeStackNavigator<HomeStackParamList>()

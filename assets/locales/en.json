@@ -19,5 +19,6 @@
   "delete": "Delete",
   "pointing_arrow": "Pointing arrow",
   "pointing_arrow_description": "Arrow pointing to create new timer button",
-  "start_focus_sections": "Start focus sections"
+  "start_focus_sections": "Start focus sections",
+  "notification_disabled_warning": "For a better experience, enable the notifications for this app"
 }
